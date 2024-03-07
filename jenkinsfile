@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your/repository.git'
+                git credentialsId: 'deploy-to-devlopment', url: 'https://github.com/vishalkhillare/dev-demo-nodejs1.git'
             }
         }
         
