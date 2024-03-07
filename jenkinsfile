@@ -1,49 +1,35 @@
 pipeline {
     agent any
-
+    
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/your/repository.git'
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install' // Assuming it's a Node.js project, adjust accordingly for your project
+            }
+        }
+        
         stage('Build') {
             steps {
-                echo 'Building the app.js application...'
-                bat label: 'npm install', script: '"C:\\Program Files\\nodejs\\npm" install'
+                sh 'npm run build' // Adjust this command according to your build process
             }
         }
-
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                bat label: 'npm test', script: '"C:\\Program Files\\nodejs\\npm" test'
-                echo "Tests completed successfully"
-            }
-        }
-
+        
         stage('Deploy to Development') {
-            when {
-                branch 'dev-test-nodejs'
-            }
             steps {
-                echo 'Deploying the Node.js application to development environment...'
-                // Add deployment steps for development environment here
+                sh 'echo "Deploying to development server"' // Adjust this step to deploy to your development environment
             }
         }
-
+        
         stage('Deploy to Production') {
-            when {
-                branch 'prod-test-nodejs'
-            }
             steps {
-                echo 'Deploying the Node.js application to production environment...'
-                // Add deployment steps for production environment here
+                sh 'echo "Deploying to production server"' // Adjust this step to deploy to your production environment
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed!'
         }
     }
 }
